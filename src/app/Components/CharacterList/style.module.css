@@ -6,4 +6,5 @@
     justify-content: center;
     max-height: 300px;
     align-items: center;
+    overflow-y: scroll;
 }

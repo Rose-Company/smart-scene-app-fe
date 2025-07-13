@@ -1,4 +1,3 @@
-// components/VideoListGrid/VideoListGrid.tsx
 import style from "./style.module.css";
 import VideoCard from "@/app/Components/VideoCard/VideoCard";
 import { VideoType } from "@/app/types/Video";
