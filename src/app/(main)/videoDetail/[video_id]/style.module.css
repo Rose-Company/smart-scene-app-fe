@@ -171,7 +171,12 @@
     }
 }
 
-/* Improved responsive design */
+@media (max-width:800px) {
+    .mainContainer {
+        flex-direction: column;
+    }
+}
+
 @media (max-width: 1024px) {
     .mainContainer {
         gap: 24px;

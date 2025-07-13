@@ -3,18 +3,19 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import style from "./style.module.css";
-
+import { useRouter } from "next/navigation"
 export default function Header() {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
+    const router = useRouter();
     const handleLogout = () => {
-        localStorage.removeItem("accessToken");
-        window.location.href = "/";
+        router.push('/');
     };
-
+    const handleReturnHome = () => {
+        router.push('/listingVideo');
+    }
     return (
         <div className={style.header}>
-            <div className={style.logoBox}>
+            <div className={style.logoBox} onClick={handleReturnHome}>
                 <Image
                     src="/Images/logo.png"
                     alt="logo"
