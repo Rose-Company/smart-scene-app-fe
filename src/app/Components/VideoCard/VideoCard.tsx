@@ -21,6 +21,7 @@ export default function VideoCard({
             style={{
                 backgroundImage: `url("/Images/images.png")`,
             }}
+            onClick={handleViewVideo}
         >
             <div className={style.videoInfo}>
                 <div className={style.tagList}>
@@ -34,7 +35,7 @@ export default function VideoCard({
                 <div className={style.videoTitle}>{title}</div>
                 <div className={style.videoAction}>
                     <div>{duration} sec</div>
-                    <button className={style.btn} onClick={handleViewVideo}>View Detail</button>
+                    <button className={style.btn} >View Detail</button>
                 </div>
             </div>
         </div>

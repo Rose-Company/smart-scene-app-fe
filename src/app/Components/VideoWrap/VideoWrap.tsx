@@ -4,7 +4,7 @@ import style from "./style.module.css";
 
 type Scene = {
     scene_id: string;
-    start_time: number; // tính bằng giây
+    start_time: number;
     end_time: number;
 };
 
