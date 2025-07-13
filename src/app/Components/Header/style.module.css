@@ -78,7 +78,7 @@
 }
 
 .logoTitle {
-    background: linear-gradient(135deg, #fbbf24 0%, #fde047 100%);
+    background: #fde047;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
