@@ -27,6 +27,7 @@ export default function VideoDetail() {
     const [scenes, setScenes] = useState<any[]>([]);
     const [showIncluded, setShowIncluded] = useState(false);
     const [showExcluded, setShowExcluded] = useState(false);
+    const [isFilterScenes, setIsFilterScenes] = useState(false);
 
     // Fetch video + characters
     useEffect(() => {
@@ -48,13 +49,15 @@ export default function VideoDetail() {
 
     // Fetch scenes when filter changes
     useEffect(() => {
-        if (!videoId) return;
-
+        if (!isFilterScenes) return;
         const fetchScenes = async () => {
             try {
+                console.log("📥 Đang gọi API getScenesWithFilter với:", {
+                    videoId,
+                    includedIds,
+                    excludedIds
+                });
                 const sceneData = await getScenesWithFilter(videoId, includedIds, excludedIds, 1, 100);
-
-                // Nếu trả về dạng string "hh:mm:ss" thì chuyển về giây
                 const parsed = sceneData.map((s: any) => ({
                     ...s,
                     start_time: typeof s.start_time === "string" ? timeStrToSeconds(s.start_time) : s.start_time,
@@ -64,11 +67,14 @@ export default function VideoDetail() {
                 setScenes(parsed);
             } catch (err) {
                 console.error("Lỗi khi tải scenes:", err);
+            } finally {
+
             }
         };
 
         fetchScenes();
-    }, [includedIds, excludedIds, videoId]);
+    }, [includedIds, excludedIds, videoId, isFilterScenes]);
+
 
     return (
         <div className={style.mainContainer}>
@@ -88,7 +94,7 @@ export default function VideoDetail() {
                     />
                 </div>
             ) : (
-                <img src="/images/images.png" alt="Fallback" />
+                <div />
             )}
 
             <div className={style.videoFilter}>
@@ -111,7 +117,12 @@ export default function VideoDetail() {
                             </div>
                             <CharacterList
                                 characters={characters}
-                                onSelectChange={(ids) => setIncludedIds(ids)}
+                                onSelectChange={(ids) => {
+                                    if (JSON.stringify(ids) !== JSON.stringify(includedIds)) {
+                                        setIncludedIds(ids);
+                                        setIsFilterScenes(true);
+                                    }
+                                }}
                             />
                         </>
                     )}
@@ -133,7 +144,12 @@ export default function VideoDetail() {
                             </div>
                             <CharacterList
                                 characters={characters}
-                                onSelectChange={(ids) => setExcludedIds(ids)}
+                                onSelectChange={(ids) => {
+                                    if (JSON.stringify(ids) !== JSON.stringify(excludedIds)) {
+                                        setExcludedIds(ids);
+                                        setIsFilterScenes(true);
+                                    }
+                                }}
                             />
                         </>
                     )}

@@ -1,8 +1,8 @@
-// libs/services/videoService.ts
 import { apiClient } from "../apiClient";
 import { VideoType } from "@/app/types/Video"
 import { CharacterType } from "@/app/types/Character"
 import { SceneType } from "@/app/types/SceneType";
+
 export async function getAllVideos(page = 1, page_size = 10, searchText = "") {
     const token = localStorage.getItem("accessToken");
     if (!token) throw new Error("No token found");
@@ -32,7 +32,6 @@ export async function getVideoById(videoId: string): Promise<VideoType> {
     return res.data;
 }
 
-
 export async function getAllCharacters(
     videoId: string,
     page = 1,
@@ -55,8 +54,6 @@ export async function getAllCharacters(
 
     return res.data.items || [];
 }
-
-
 
 export async function getScenesWithFilter(
     videoId: string,
@@ -87,6 +84,7 @@ export async function getScenesWithFilter(
 
     return res.data.items ?? [];
 }
+
 
 
 
