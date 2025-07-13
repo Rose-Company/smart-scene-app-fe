@@ -1,0 +1,179 @@
+/* CSS cho VideoWrap component */
+.videoWrap {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.videoWrap video {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.controls {
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 15px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 20px;
+    margin-top: 10px;
+}
+
+.playButton img {
+    height: 15px;
+}
+
+.rangeWrapper {
+    position: relative;
+    flex: 1;
+    height: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.rangeWrapper input[type="range"] {
+    width: 100%;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 3px;
+    outline: none;
+    position: relative;
+    z-index: 2;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.rangeWrapper input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    background: #b5dd4f;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.rangeWrapper input[type="range"]::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    background: #007bff;
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+}
+
+.progressHighlight {
+    position: absolute;
+    top: 8px;
+    left: 0;
+    right: 0;
+    height: 13px;
+    z-index: 3;
+    border-radius: 4px;
+}
+
+.highlightSegment {
+    position: absolute;
+    height: 100%;
+    background: rgba(255, 255, 255, 1);
+    border-radius: 4px;
+    opacity: 0.9;
+    cursor: pointer;
+    pointer-events: auto;
+    transition: all 0.2s ease;
+}
+
+
+.activeSegment {
+    background: yellow;
+    opacity: 1;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.7;
+    }
+}
+
+.sceneList {
+    margin-top: 15px;
+    padding: 10px;
+    border-radius: 10px;
+    height: 180px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+.sceneList::-webkit-scrollbar {
+    width: 6px;
+}
+
+.sceneList::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+}
+
+.sceneList::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 3px;
+}
+
+.sceneList::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+.sceneList h4 {
+    margin: 0 0 10px 0;
+    color: #d0dc31;
+    font-size: 14px;
+}
+
+.sceneItem {
+    padding: 8px 12px;
+    margin: 4px 0;
+    background: white;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    font-size: 13px;
+    color: #666;
+}
+
+.sceneItem:hover {
+    background-color: #e9ecef;
+}
+
+.activeScene {
+    background-color: #fff3cd;
+    border-left: 3px solid #ffc107;
+    color: #856404;
+}
+
+/* Responsive cho mobile */
+@media (max-width: 768px) {
+    .controls {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .rangeWrapper {
+        width: 100%;
+        order: -1;
+    }
+
+    .controls button {
+        width: 100%;
+    }
+}
