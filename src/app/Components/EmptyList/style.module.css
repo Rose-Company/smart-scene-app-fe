@@ -21,14 +21,6 @@
     transition: all 0.3s ease-in-out;
 }
 
-.emptyImg {
-    height: 300px;
-    width: 340px;
-    object-fit: contain;
-    margin-bottom: 20px;
-    animation: fadeInUp 0.8s ease-out;
-}
-
 .emptyText {
     color: #f5f5f5;
     font-size: 20px;

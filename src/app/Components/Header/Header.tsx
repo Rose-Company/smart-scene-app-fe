@@ -33,15 +33,13 @@ export default function Header() {
 
                     {isDropdownOpen && (
                         <div className={style.dropdown}>
-                            <button className={`${style.dropdownItem}`} onClick={handleLogout}>
+                            <button className={style.dropdownItem} onClick={handleLogout}>
                                 Logout
                             </button>
                         </div>
                     )}
                 </div>
             </div>
-
-            {/* Overlay to close dropdown when clicking outside */}
             {isDropdownOpen && (
                 <div
                     className={style.overlay}

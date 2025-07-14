@@ -59,10 +59,12 @@ export default function VideoWrap({ thumbnail_url, file_path, scenes }: VideoPro
             videoEl.currentTime = scene.start_time;
             setCurrentTime(scene.start_time);
             videoEl.play();
+            setIsPlaying(true);
 
             const onTimeUpdate = () => {
                 if (videoEl.currentTime >= scene.end_time) {
                     videoEl.pause();
+                    setIsPlaying(false);
                     videoEl.removeEventListener("timeupdate", onTimeUpdate);
                 }
             };
