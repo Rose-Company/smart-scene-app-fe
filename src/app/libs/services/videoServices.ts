@@ -3,7 +3,12 @@ import { VideoType } from "@/app/types/Video";
 import { CharacterType } from "@/app/types/Character";
 import { SceneType } from "@/app/types/SceneType";
 import { FilterPositionType } from "@/app/types/Tag";
-export async function getAllVideos(page = 1, page_size = 10, searchText = "") {
+export async function getAllVideos(
+  page = 1,
+  page_size = 10,
+  searchText = "",
+  filters: Record<number, string[]> = {}
+) {
   const token = localStorage.getItem("accessToken");
   if (!token) throw new Error("No token found");
 
@@ -12,6 +17,20 @@ export async function getAllVideos(page = 1, page_size = 10, searchText = "") {
     page_size: page_size.toString(),
     title: searchText,
   });
+
+  // Add filter parameters using tag_codes only if filters are provided
+  const allTagCodes: string[] = [];
+  Object.values(filters).forEach((tagIds) => {
+    if (tagIds.length > 0) {
+      allTagCodes.push(...tagIds);
+    }
+  });
+
+  if (allTagCodes.length > 0) {
+    queryParams.append("tag_codes", allTagCodes.join(","));
+  }
+
+  console.log("API call URL:", `/videos?${queryParams}`);
 
   const res = await apiClient<{
     data: {

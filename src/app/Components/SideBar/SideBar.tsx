@@ -6,13 +6,14 @@ import style from "./style.module.css";
 
 interface SideBarProps {
   onFilterSubmit?: (filters: Record<number, string[]>) => void;
+  onGetAll?: () => void;
 }
 
-export default function SideBar({ onFilterSubmit }: SideBarProps) {
+export default function SideBar({ onFilterSubmit, onGetAll }: SideBarProps) {
   const [show, setShow] = useState(true);
-  const [selectedTags, setSelectedTags] = useState<Record<number, string[]>>(
-    {}
-  );
+  const [selectedTagCodes, setSelectedTagCodes] = useState<
+    Record<number, string[]>
+  >({});
   const [filterData, setFilterData] = useState<FilterPositionType[]>([]);
   const [loading, setLoading] = useState(true);
   const [collapsedCategories, setCollapsedCategories] = useState<
@@ -24,7 +25,7 @@ export default function SideBar({ onFilterSubmit }: SideBarProps) {
       try {
         const filtersData = await getFilterSidebarTags();
         setFilterData(filtersData);
-        // Initialize selected tags for each category
+        // Initialize selected tag codes for each category
         const initialSelected: Record<number, string[]> = {};
         const initialCollapsed: Record<number, boolean> = {};
         filtersData.forEach((position) => {
@@ -33,7 +34,7 @@ export default function SideBar({ onFilterSubmit }: SideBarProps) {
             initialCollapsed[category.category_id] = false;
           });
         });
-        setSelectedTags(initialSelected);
+        setSelectedTagCodes(initialSelected);
         setCollapsedCategories(initialCollapsed);
       } catch (error) {
         console.error("Failed to fetch filter data:", error);
@@ -45,13 +46,13 @@ export default function SideBar({ onFilterSubmit }: SideBarProps) {
     fetchFilters();
   }, []);
 
-  const toggleTag = (categoryId: number, tagId: string) => {
-    setSelectedTags((prev) => {
+  const toggleTag = (categoryId: number, tagCode: string) => {
+    setSelectedTagCodes((prev) => {
       const currentSelected = prev[categoryId] || [];
       // Always allow multiple selections
-      const newSelected = currentSelected.includes(tagId)
-        ? currentSelected.filter((id) => id !== tagId)
-        : [...currentSelected, tagId];
+      const newSelected = currentSelected.includes(tagCode)
+        ? currentSelected.filter((code) => code !== tagCode)
+        : [...currentSelected, tagCode];
 
       return {
         ...prev,
@@ -67,26 +68,38 @@ export default function SideBar({ onFilterSubmit }: SideBarProps) {
     }));
   };
 
-  const getSelectedTagsForCategory = (categoryId: number): string[] => {
-    return selectedTags[categoryId] || [];
+  const getSelectedTagCodesForCategory = (categoryId: number): string[] => {
+    return selectedTagCodes[categoryId] || [];
   };
 
   const handleSubmit = () => {
     if (onFilterSubmit) {
-      onFilterSubmit(selectedTags);
+      onFilterSubmit(selectedTagCodes);
     }
-    console.log("Applied filters:", selectedTags);
+    console.log("Applied filters:", selectedTagCodes);
   };
 
   const handleClear = () => {
     const clearedTags: Record<number, string[]> = {};
-    Object.keys(selectedTags).forEach((categoryId) => {
+    Object.keys(selectedTagCodes).forEach((categoryId) => {
       clearedTags[parseInt(categoryId)] = [];
     });
-    setSelectedTags(clearedTags);
+    setSelectedTagCodes(clearedTags);
   };
 
-  const hasSelectedFilters = Object.values(selectedTags).some(
+  const handleGetAll = () => {
+    if (onGetAll) {
+      onGetAll();
+    }
+    // Clear all selected filters
+    const clearedTags: Record<number, string[]> = {};
+    Object.keys(selectedTagCodes).forEach((categoryId) => {
+      clearedTags[parseInt(categoryId)] = [];
+    });
+    setSelectedTagCodes(clearedTags);
+  };
+
+  const hasSelectedFilters = Object.values(selectedTagCodes).some(
     (tags) => tags.length > 0
   );
 
@@ -127,14 +140,11 @@ export default function SideBar({ onFilterSubmit }: SideBarProps) {
                           >
                             <input
                               type="checkbox"
-                              checked={getSelectedTagsForCategory(
+                              checked={getSelectedTagCodesForCategory(
                                 category.category_id
-                              ).includes(tag.tag_id.toString())}
+                              ).includes(tag.tag_code)}
                               onChange={() =>
-                                toggleTag(
-                                  category.category_id,
-                                  tag.tag_id.toString()
-                                )
+                                toggleTag(category.category_id, tag.tag_code)
                               }
                             />
                             <span style={{ color: tag.color }}>
@@ -149,6 +159,9 @@ export default function SideBar({ onFilterSubmit }: SideBarProps) {
               )}
 
               <div className={style.filterActions}>
+                <button className={style.getAllButton} onClick={handleGetAll}>
+                  Get All Videos
+                </button>
                 <button
                   className={style.submitButton}
                   onClick={handleSubmit}
