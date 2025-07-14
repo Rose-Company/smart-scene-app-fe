@@ -6,7 +6,13 @@ export default function Header() {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const router = useRouter();
     const handleLogout = () => {
-        router.push('/');
+        localStorage.removeItem("token");
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("user");
+        document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+        document.cookie = 'user=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+        window.history.replaceState(null, '', '/');
+        window.location.href = "/";
     };
     const handleReturnHome = () => {
         router.push('/listingVideo');

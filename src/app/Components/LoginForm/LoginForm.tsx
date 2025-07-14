@@ -17,6 +17,14 @@ export default function LoginForm() {
         try {
             const res = await login(username, password);
             localStorage.setItem("accessToken", res.token);
+            if (res.user) {
+                localStorage.setItem("user", JSON.stringify(res.user));
+            }
+            document.cookie = `token=${res.token}; path=/; max-age=86400; secure; samesite=strict`;
+            if (res.user) {
+                document.cookie = `user=${JSON.stringify(res.user)}; path=/; max-age=86400; secure; samesite=strict`;
+            }
+            window.history.replaceState(null, '', '/listingVideo');
             router.push("/listingVideo");
         } catch (err) {
             alert("Login failed. Please try again.");
