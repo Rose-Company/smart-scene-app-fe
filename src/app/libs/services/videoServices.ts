@@ -1,4 +1,3 @@
-// libs/services/videoService.ts
 import { apiClient } from "../apiClient";
 import { VideoType } from "@/app/types/Video";
 import { CharacterType } from "@/app/types/Character";
@@ -92,6 +91,5 @@ export async function getFilterSidebarTags(): Promise<FilterPositionType[]> {
     extra: unknown;
     items: FilterPositionType[];
   }>("/tags/position/filter_sidebar", "GET", undefined, token);
-
   return res.items || [];
 }

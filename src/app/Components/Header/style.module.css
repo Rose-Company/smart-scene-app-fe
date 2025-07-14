@@ -7,9 +7,6 @@
     backdrop-filter: blur(20px);
     animation: headerSlide 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     font-family: 'Poppins', 'Trebuchet MS', sans-serif;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
@@ -67,6 +64,8 @@
     transition: all 0.3s ease;
     box-shadow: 0 4px 15px rgba(251, 191, 36, 0.2);
     border: 2px solid rgba(251, 191, 36, 0.3);
+    height: 30px;
+    width: 30px;
 }
 
 .logo:hover {
@@ -76,7 +75,7 @@
 }
 
 .logoTitle {
-    background: linear-gradient(135deg, #fbbf24 0%, #fde047 100%);
+    background: #fde047;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;

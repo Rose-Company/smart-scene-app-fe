@@ -1,25 +1,28 @@
 "use client";
 import { useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
 import style from "./style.module.css";
-
+import { useRouter } from "next/navigation"
 export default function Header() {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
+    const router = useRouter();
     const handleLogout = () => {
+        localStorage.removeItem("token");
         localStorage.removeItem("accessToken");
+        localStorage.removeItem("user");
+        document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+        document.cookie = 'user=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+        window.history.replaceState(null, '', '/');
         window.location.href = "/";
     };
-
+    const handleReturnHome = () => {
+        router.push('/listingVideo');
+    }
     return (
         <div className={style.header}>
-            <div className={style.logoBox}>
-                <Image
+            <div className={style.logoBox} onClick={handleReturnHome}>
+                <img
                     src="/Images/logo.png"
                     alt="logo"
-                    width={40}
-                    height={40}
                     className={style.logo}
                 />
                 <div className={style.logoTitle}>Smart Scene</div>
@@ -36,15 +39,13 @@ export default function Header() {
 
                     {isDropdownOpen && (
                         <div className={style.dropdown}>
-                            <button className={`${style.dropdownItem}`} onClick={handleLogout}>
+                            <button className={style.dropdownItem} onClick={handleLogout}>
                                 Logout
                             </button>
                         </div>
                     )}
                 </div>
             </div>
-
-            {/* Overlay to close dropdown when clicking outside */}
             {isDropdownOpen && (
                 <div
                     className={style.overlay}

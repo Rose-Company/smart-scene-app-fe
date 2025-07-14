@@ -14,10 +14,8 @@ export default function CharacterList({ characters, onSelectChange }: Props) {
     const handleClick = (id: string) => {
         setSelectedCharacterIds((prev) => {
             if (prev.includes(id)) {
-                // Nếu đã chọn rồi thì bỏ chọn
                 return prev.filter((item) => item !== id);
             } else {
-                // Nếu chưa chọn thì thêm vào
                 return [...prev, id];
             }
         });
@@ -34,6 +32,7 @@ export default function CharacterList({ characters, onSelectChange }: Props) {
                     <CharacterCard
                         key={char.character_id}
                         name={char.character_name}
+                        avatar={char.character_avatar}
                         selected={selectedCharacterIds.includes(char.character_id)}
                         onClick={() => handleClick(char.character_id)}
                     />

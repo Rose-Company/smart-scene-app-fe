@@ -1,85 +1,167 @@
 .videoCardBox {
     width: 266px;
     height: 160px;
-    background-color: black;
     font-size: 14px;
     display: flex;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    cursor: pointer;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+}
+
+.videoCardBox::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg,
+            rgba(0, 0, 0, 0.1) 0%,
+            rgba(0, 0, 0, 0.3) 100%);
+    transition: opacity 0.3s ease;
+}
+
+.videoCardBox:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+    border-color: rgba(227, 235, 192, 0.4);
+}
+
+.videoCardBox:hover::before {
+    opacity: 0.7;
 }
 
 .videoInfo {
     width: 100%;
     height: 100%;
-    padding: 10px;
+    padding: 12px;
     position: relative;
     display: flex;
     justify-content: space-between;
     flex-direction: column;
+    background: linear-gradient(to top,
+            rgba(0, 0, 0, 0.7) 0%,
+            rgba(0, 0, 0, 0.4) 40%,
+            rgba(0, 0, 0, 0.1) 70%,
+            rgba(0, 0, 0, 0) 100%);
+    z-index: 1;
 }
 
 .videoAction {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     position: absolute;
-    top: 70%;
+    top: 75%;
     left: 0;
     width: 100%;
     opacity: 0;
-    padding: 10px;
+    padding: 12px;
+    transform: translateY(10px);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .videoTitle {
-    transition: transform 0.5s ease;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    color: white;
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 1.3;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    margin-bottom: 8px;
 }
 
-
 .videoCardBox:hover .videoInfo {
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.55) 56%, rgba(0, 0, 0, 0) 100%);
+    background: linear-gradient(to top,
+            rgba(0, 0, 0, 0.8) 0%,
+            rgba(0, 0, 0, 0.5) 40%,
+            rgba(0, 0, 0, 0.2) 70%,
+            rgba(0, 0, 0, 0) 100%);
 }
 
 .videoCardBox:hover .videoAction {
-    animation: moveUp 0.5s ease-out;
-    animation-fill-mode: forwards;
+    opacity: 1;
+    transform: translateY(-15px);
 }
 
 .videoCardBox:hover .videoTitle {
-    transform: translateY(-35px);
-}
-
-@keyframes moveUp {
-    0% {
-        opacity: 0%;
-        transform: translateY(10px);
-    }
-
-    100% {
-        opacity: 100%;
-        transform: translateY(0);
-    }
+    transform: translateY(-30px);
+    color: #E3EBC0;
 }
 
 .btn {
-    color: black;
-    background: linear-gradient(to right, #E3EBC0, #d8e59f);
-    font-size: 12px;
-    padding: 2px 10px;
-    border-radius: 10px;
-    font-weight: 400;
+    color: #1a1a1a;
+    background: linear-gradient(135deg, #E3EBC0 0%, #d8e59f 100%);
+    font-size: 10px;
+    padding: 6px 8px;
+    border-radius: 20px;
+    font-weight: 600;
     cursor: pointer;
+    border: none;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn:hover {
+    background: linear-gradient(135deg, #d8e59f 0%, #E3EBC0 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(227, 235, 192, 0.3);
 }
 
 .tagList {
     display: flex;
-    gap: 3px;
-    flex-wrap: wrap
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
 }
 
 .tag {
-    font-size: 11px;
-    background-color: rgb(47, 47, 47);
-    padding: 2px 5px;
-    border-radius: 5px;
+    font-size: 10px;
+    background: linear-gradient(135deg, rgba(47, 47, 47, 0.9) 0%, rgba(60, 60, 60, 0.9) 100%);
+    padding: 4px 8px;
+    border-radius: 8px;
     color: #E3EBC0;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border: 1px solid rgba(227, 235, 192, 0.2);
+    backdrop-filter: blur(4px);
+    transition: all 0.3s ease;
+}
+
+.tag:hover {
+    background: linear-gradient(135deg, rgba(227, 235, 192, 0.2) 0%, rgba(227, 235, 192, 0.1) 100%);
+    border-color: rgba(227, 235, 192, 0.4);
+}
+
+.videoAction>div {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 13px;
+    font-weight: 500;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .videoCardBox {
+        width: 100%;
+        max-width: 266px;
+    }
+
+    .videoTitle {
+        font-size: 14px;
+    }
+
+    .btn {
+        padding: 6px 12px;
+        font-size: 11px;
+    }
 }

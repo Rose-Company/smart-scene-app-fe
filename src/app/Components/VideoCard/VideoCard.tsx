@@ -1,7 +1,8 @@
 "use client";
 import style from "./style.module.css";
 import { VideoType } from "@/app/types/Video";
-import { useRouter } from "next/navigation"
+import { useRouter } from "next/navigation";
+
 type VideoCardProps = Pick<VideoType, "id" | "title" | "duration" | "thumbnail_url" | "tags">;
 
 export default function VideoCard({
@@ -12,15 +13,22 @@ export default function VideoCard({
     tags = [],
 }: VideoCardProps) {
     const router = useRouter();
+
     const handleViewVideo = () => {
         router.push(`/videoDetail/${id}`);
-    }
+    };
+
+    const safeDuration = typeof duration === "number" ? duration : 0;
+    const minutes = Math.floor(safeDuration / 60);
+    const seconds = safeDuration % 60;
+
     return (
         <div
             className={style.videoCardBox}
             style={{
-                backgroundImage: `url("/Images/images.png")`,
+                backgroundImage: `url(${thumbnail_url})`,
             }}
+            onClick={handleViewVideo}
         >
             <div className={style.videoInfo}>
                 <div className={style.tagList}>
@@ -33,8 +41,8 @@ export default function VideoCard({
                 </div>
                 <div className={style.videoTitle}>{title}</div>
                 <div className={style.videoAction}>
-                    <div>{duration} sec</div>
-                    <button className={style.btn} onClick={handleViewVideo}>View Detail</button>
+                    <div>{minutes}m {seconds}s</div>
+                    <button className={style.btn}>View Detail</button>
                 </div>
             </div>
         </div>

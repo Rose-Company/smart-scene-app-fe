@@ -4,7 +4,7 @@ import style from "./style.module.css";
 
 type Scene = {
     scene_id: string;
-    start_time: number; // tính bằng giây
+    start_time: number;
     end_time: number;
 };
 
@@ -53,12 +53,23 @@ export default function VideoWrap({ thumbnail_url, file_path, scenes }: VideoPro
         }
     };
 
-    // Thêm function để jump tới scene
     const jumpToScene = (scene: Scene) => {
         const videoEl = videoRef.current;
         if (videoEl) {
             videoEl.currentTime = scene.start_time;
             setCurrentTime(scene.start_time);
+            videoEl.play();
+            setIsPlaying(true);
+
+            const onTimeUpdate = () => {
+                if (videoEl.currentTime >= scene.end_time) {
+                    videoEl.pause();
+                    setIsPlaying(false);
+                    videoEl.removeEventListener("timeupdate", onTimeUpdate);
+                }
+            };
+
+            videoEl.addEventListener("timeupdate", onTimeUpdate);
         }
     };
 
@@ -68,7 +79,6 @@ export default function VideoWrap({ thumbnail_url, file_path, scenes }: VideoPro
         return `${minutes}:${seconds.toString().padStart(2, "0")}`;
     };
 
-    // Kiểm tra xem thời gian hiện tại có đang trong scene nào không
     const isCurrentTimeInScene = (scene: Scene) => {
         return currentTime >= scene.start_time && currentTime <= scene.end_time;
     };
@@ -78,9 +88,10 @@ export default function VideoWrap({ thumbnail_url, file_path, scenes }: VideoPro
             <video
                 ref={videoRef}
                 src={file_path}
+                poster={thumbnail_url}
                 onTimeUpdate={handleTimeUpdate}
                 onLoadedMetadata={handleLoadedMetadata}
-                poster={thumbnail_url || "/images/images.png"}
+                onClick={togglePlay}
             />
 
             <div className={style.controls}>
@@ -97,12 +108,11 @@ export default function VideoWrap({ thumbnail_url, file_path, scenes }: VideoPro
                         type="range"
                         min={0}
                         max={duration}
-                        step="0.1"
+                        step="0.05"
                         value={currentTime}
                         onChange={handleSeek}
                     />
 
-                    {/* Vệt vàng hiển thị các scene */}
                     <div className={style.progressHighlight}>
                         {duration > 0 && scenes?.map((scene) => {
                             const left = (scene.start_time / duration) * 100;
