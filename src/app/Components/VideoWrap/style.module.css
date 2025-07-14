@@ -1,7 +1,6 @@
-/* CSS cho VideoWrap component */
 .videoWrap {
     position: relative;
-    width: 100%;
+    width: 90%;
     max-width: 800px;
     margin: 0 auto;
 }
@@ -10,6 +9,7 @@
     width: 100%;
     height: auto;
     display: block;
+    border-radius: 10px;
 }
 
 .controls {
@@ -25,6 +25,7 @@
 
 .playButton img {
     height: 15px;
+    cursor: pointer;
 }
 
 .rangeWrapper {

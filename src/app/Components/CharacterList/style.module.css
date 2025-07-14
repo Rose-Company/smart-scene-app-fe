@@ -3,13 +3,10 @@
     flex-wrap: wrap;
     padding: 10px;
     gap: 5px;
-    justify-content: start;
+    justify-content: center;
     max-height: 200px;
     align-items: center;
     overflow-y: scroll;
-    width: fit-content;
-    max-width: 100%;
-    box-sizing: border-box;
 }
 
 .characterList::-webkit-scrollbar {

@@ -53,12 +53,21 @@ export default function VideoWrap({ thumbnail_url, file_path, scenes }: VideoPro
         }
     };
 
-    // Thêm function để jump tới scene
     const jumpToScene = (scene: Scene) => {
         const videoEl = videoRef.current;
         if (videoEl) {
             videoEl.currentTime = scene.start_time;
             setCurrentTime(scene.start_time);
+            videoEl.play();
+
+            const onTimeUpdate = () => {
+                if (videoEl.currentTime >= scene.end_time) {
+                    videoEl.pause();
+                    videoEl.removeEventListener("timeupdate", onTimeUpdate);
+                }
+            };
+
+            videoEl.addEventListener("timeupdate", onTimeUpdate);
         }
     };
 
@@ -77,8 +86,10 @@ export default function VideoWrap({ thumbnail_url, file_path, scenes }: VideoPro
             <video
                 ref={videoRef}
                 src={file_path}
+                poster={thumbnail_url}
                 onTimeUpdate={handleTimeUpdate}
                 onLoadedMetadata={handleLoadedMetadata}
+                onClick={togglePlay}
             />
 
             <div className={style.controls}>

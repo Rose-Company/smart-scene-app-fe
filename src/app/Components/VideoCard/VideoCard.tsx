@@ -26,7 +26,7 @@ export default function VideoCard({
         <div
             className={style.videoCardBox}
             style={{
-                backgroundImage: `url("/Images/images.png")`,
+                backgroundImage: `url(${thumbnail_url})`,
             }}
             onClick={handleViewVideo}
         >
